@@ -1,0 +1,283 @@
+/* ------------------------------------------------------------------
+   Palette drawn from assets/profile-icon.png:
+   cream page, deep-teal ink, muted-teal accent.
+
+   Type: PP Editorial New (Regular) is the intended primary display
+   face but is a paid Pangram Pangram release, so it isn't loaded here.
+   Instrument Serif stands in for it — a free, purpose-built lookalike
+   (thin, high-contrast editorial serif, Regular + Italic only, so
+   there's no synthetic-bold risk). Body/UI copy runs on Instrument
+   Sans rather than a generic system font like Inter — it's the sister
+   sans released by the same foundry specifically to pair with
+   Instrument Serif, so headings and everything around them read as
+   one considered system instead of two unrelated typefaces.
+------------------------------------------------------------------- */
+:root {
+  --bg: #faf6f0;
+  --ink: #2b3a40;
+  --heading: #1d4a57;
+  --accent: #7fadaa;
+  --accent-deep: #35707c;
+  --muted: #8a938f;
+  --rule: rgba(29, 74, 87, 0.12);
+
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-sans: "Instrument Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 2.5rem 1.5rem 4rem;
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- header ---------- */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4rem;
+}
+
+.site-nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.site-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding-bottom: 0.2rem;
+  border-bottom: 1.5px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.site-nav a:hover {
+  color: var(--heading);
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--heading);
+  border-bottom-color: var(--accent-deep);
+}
+
+/* ---------- layout: sidebar left, prose right ---------- */
+
+.layout {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* ---------- sidebar ---------- */
+
+.avatar {
+  width: 100%;
+}
+
+.avatar img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px -18px rgba(29, 74, 87, 0.35);
+}
+
+.side .now,
+.side .elsewhere {
+  margin-top: 1.75rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.social-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.9rem;
+}
+
+.now-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.now-list li {
+  padding: 0.55rem 0;
+}
+
+.now-list li + li {
+  border-top: 1px solid var(--rule);
+}
+
+/* ---------- plain lists (used in main content, e.g. work page) ---------- */
+
+.plain-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.plain-list li {
+  padding: 0.55rem 0;
+}
+
+.plain-list li + li {
+  border-top: 1px solid var(--rule);
+}
+
+/* ---------- inline dot-separated list (courses, short labels) ---------- */
+
+.dot-list {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  line-height: 1.9;
+}
+
+.dot-list li {
+  display: inline;
+}
+
+.dot-list li:not(:last-child)::after {
+  content: "\00a0\00b7\00a0";
+  color: var(--accent);
+}
+
+/* ---------- prose ---------- */
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 400;
+  color: var(--heading);
+  margin: 0 0 1rem;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+p {
+  margin: 0 0 1.25rem;
+}
+
+section + section {
+  margin-top: 3.25rem;
+}
+
+.section-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 1rem;
+}
+
+.side .section-label {
+  margin-bottom: 0.5rem;
+}
+
+/* ---------- links ---------- */
+
+a {
+  color: var(--accent-deep);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+a:hover {
+  color: var(--heading);
+  text-decoration-color: var(--heading);
+}
+
+/* ---------- footer ---------- */
+
+.site-footer {
+  margin-top: 4.5rem;
+  padding-top: 1.5rem;
+  border-top: 1.5px dotted var(--rule);
+  font-size: 0.95rem;
+  color: var(--muted);
+  display: flex;
+  gap: 0.6rem;
+}
+
+/* ---------- small screens ---------- */
+
+@media (max-width: 640px) {
+  body {
+    padding-top: 1.75rem;
+  }
+
+  .site-header {
+    margin-bottom: 3rem;
+  }
+
+  h1 {
+    font-size: 2.1rem;
+  }
+
+  /* Stack: headshot, intro, currently, offline */
+  .layout {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .side,
+  .content {
+    display: contents;
+  }
+
+  .avatar {
+    order: 0;
+    width: 150px;
+    margin-bottom: 1.75rem;
+  }
+
+  .hero {
+    order: 1;
+  }
+
+  .side .now {
+    order: 2;
+    margin-top: 2rem;
+    font-size: 1rem;
+  }
+
+  .side .elsewhere {
+    order: 3;
+    margin-top: 2rem;
+    font-size: 1rem;
+  }
+
+  .offline {
+    order: 4;
+    margin-top: 3rem;
+  }
+}
