@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <noscript><style>.reveal{opacity:1!important;transform:none!important}.deep-panel{grid-template-rows:1fr!important}.deep-trigger{cursor:default!important}.deep-trigger__chevron{display:none!important}</style></noscript>
 </head>
 <body>
 
@@ -21,7 +22,7 @@
   </header>
 
   <main>
-    <section class="hero">
+    <section class="hero reveal" style="--d:0">
       <h1>Work</h1>
       <p>
         Computer Engineering &amp; Machine Learning at
@@ -31,25 +32,179 @@
       <p>Research Assistant at CMU&rsquo;s <a href="https://dig.cmu.edu" target="_blank" rel="noopener">Data Interaction Group</a>, experimenting with different ways of visualizing the internal representation of language models during post-training</p>
     </section>
 
-    <section class="research">
+    <section class="research reveal" style="--d:1">
       <h2 class="section-label">Research &amp; OSS</h2>
-      <ul class="plain-list">
-        <li></li>
-        <li>Co-maintainer and contributor of the Vega ecosystem</li>
-        <li>OSS contributor to Apple&rsquo;s Embedding Atlas</li>
-        <li>OSS contributor to vLLM and TensorRT</li>
+      <ul class="deep-list">
+        <li class="deep-item">
+          <button class="deep-trigger" type="button" aria-expanded="false" aria-controls="panel-vega">
+            <span class="deep-trigger__title">Vega ecosystem<span class="deep-trigger__sub">, Co-Maintainer and contributor</span></span>
+            <span class="deep-trigger__chevron" aria-hidden="true"></span>
+          </button>
+          <div class="deep-panel" id="panel-vega">
+            <div class="deep-panel__inner">
+              <div class="deep-panel__body">
+                <p>Not just a contributor, built real infrastructure. The Vega Editor&rsquo;s entire test suite (10 unit + 14 end-to-end Playwright suites, from nothing) is mine, alongside fixes to hot-module-reload, the data viewer, and Monaco integration. On Vega core: ISO year-week time units and a <code>container:resize</code> event source. On Vega-Lite: fixed a legend-merging bug and a truthy-check bug that silently dropped zero-valued width/height, plus open work on facet sorting and legend accessibility.</p>
+                <div class="stats">
+                  <div class="stat"><span class="stat__num" data-count="12">0</span><span class="stat__label">merged · vega/editor</span></div>
+                  <div class="stat"><span class="stat__num" data-count="2">0</span><span class="stat__label">merged · vega/vega</span></div>
+                  <div class="stat"><span class="stat__num" data-count="2">0</span><span class="stat__label">merged · vega-lite</span></div>
+                </div>
+                <p class="deep-panel__link">
+                  <a class="badge-link" href="https://github.com/vega/editor/pull/1499" target="_blank" rel="noopener">Testing infra PR ↗</a>
+                  <a class="badge-link" href="https://github.com/vega/vega/pull/4320" target="_blank" rel="noopener">ISO week PR ↗</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="deep-item">
+          <button class="deep-trigger" type="button" aria-expanded="false" aria-controls="panel-embedding-atlas">
+            <span class="deep-trigger__title">Apple Embedding Atlas<span class="deep-trigger__sub">, OSS contributor</span></span>
+            <span class="deep-trigger__chevron" aria-hidden="true"></span>
+          </button>
+          <div class="deep-panel" id="panel-embedding-atlas">
+            <div class="deep-panel__inner">
+              <div class="deep-panel__body">
+                <p>Fixed a real bug in Apple&rsquo;s embedding-visualization tool: binary / Hugging Face–style image columns weren&rsquo;t being detected, so raw image bytes were dumping into table cells and tooltips as huge integer arrays instead of rendering as images.</p>
+                <p class="deep-panel__link">
+                  <a class="badge-link" href="https://github.com/apple/embedding-atlas/pull/240" target="_blank" rel="noopener">View PR ↗</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- <li class="deep-item deep-item--static">OSS contributor to vLLM and TensorRT</li> -->
       </ul>
     </section>
 
-    <section class="projects">
+    <section class="projects reveal" style="--d:2">
       <h2 class="section-label">Projects</h2>
-      <ul class="plain-list">
-        <li>Custom inference engine</li>
-        <li>tinyRL: RLVR post-training system for code reasoning</li>
+      <ul class="deep-list">
+        <li class="deep-item">
+          <button class="deep-trigger" type="button" aria-expanded="false" aria-controls="panel-tinyrl">
+            <span class="deep-trigger__title">tinyRL<span class="deep-trigger__sub">, RLVR post-training system for code reasoning</span></span>
+            <span class="deep-trigger__chevron" aria-hidden="true"></span>
+          </button>
+          <div class="deep-panel" id="panel-tinyrl">
+            <div class="deep-panel__inner">
+              <div class="deep-panel__body">
+                <p>A full RLVR post-training pipeline, built end to end: A policy model, a vLLM-colocated rollout engine, a sandboxed verifier that grades code against real competitive-programming tests, a PPO trainer, and an eval + profiling harness.</p>
+                <div class="flow">
+                  <span class="flow__stage">Rollout (vLLM)</span>
+                  <span class="flow__connector"></span>
+                  <span class="flow__stage">Verifier (sandbox)</span>
+                  <span class="flow__connector"></span>
+                  <span class="flow__stage">PPO</span>
+                  <span class="flow__connector"></span>
+                  <span class="flow__stage">Eval</span>
+                </div>
+                <p>Through ablations found that rollouts, was the primary bottleneck and optimized for rollout-engine, policy model weight-syncing. Grading on fraction-of-tests-passed instead of pass/fail roughly doubled the reward signal and pushed held-out pass@1 to 2.0% vs. 1.0% for binary reward, after the same # of PPO steps.</p>
+                <div class="bars">
+                  <div class="bars__row">
+                    <span class="bars__label">Verifying rollouts</span>
+                    <span class="bars__track"><span class="bars__fill" style="--pct:49%"></span></span>
+                    <span class="bars__value">49%</span>
+                  </div>
+                  <div class="bars__row">
+                    <span class="bars__label">PPO update</span>
+                    <span class="bars__track"><span class="bars__fill" style="--pct:23%"></span></span>
+                    <span class="bars__value">23%</span>
+                  </div>
+                  <div class="bars__row">
+                    <span class="bars__label">Rollout generation</span>
+                    <span class="bars__track"><span class="bars__fill" style="--pct:16%"></span></span>
+                    <span class="bars__value">16%</span>
+                  </div>
+                  <div class="bars__row">
+                    <span class="bars__label">Weight sync, other</span>
+                    <span class="bars__track"><span class="bars__fill" style="--pct:12%"></span></span>
+                    <span class="bars__value">12%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="deep-item">
+          <button class="deep-trigger" type="button" aria-expanded="false" aria-controls="panel-cie">
+            <span class="deep-trigger__title">Custom inference engine<span class="deep-trigger__sub">, high-performance LLM serving</span></span>
+            <span class="deep-trigger__chevron" aria-hidden="true"></span>
+          </button>
+          <div class="deep-panel" id="panel-cie">
+            <div class="deep-panel__inner">
+              <div class="deep-panel__body">
+                <p>An LLM inference engine built from scratch. Custom Triton kernels: a hand-written flash-attention kernel with tile sizes tuned specifically for the T4&rsquo;s 64KB of shared memory, speculative decoding with cache rollback, custom INT8×FP16 quantized matmul kernel and a vLLM-style paged KV cache implementation.</p>
+                <p class="deep-panel__link">
+                  <a class="badge-link" href="https://github.com/yuvvantalreja/Custom-Inference-Engine" target="_blank" rel="noopener">View on GitHub ↗</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="deep-item">
+          <button class="deep-trigger" type="button" aria-expanded="false" aria-controls="panel-ivisor">
+            <span class="deep-trigger__title">iVisor<span class="deep-trigger__sub">, gVisor for Apple Silicon</span></span>
+            <span class="deep-trigger__chevron" aria-hidden="true"></span>
+          </button>
+          <div class="deep-panel" id="panel-ivisor">
+            <div class="deep-panel__inner">
+              <div class="deep-panel__body">
+                <p>A Rust user-space kernel that runs untrusted Linux ARM64 binaries natively on macOS, without booting a Linux VM. Every syscall from the guest traps through Apple&rsquo;s Hypervisor.framework as a hardware VM-exit and is serviced entirely in user space, its own network stack, its own filesystem layer, brokered through a separate sandboxed process.</p>
+                <div class="stats">
+                  <div class="stat"><span class="stat__num" data-count="883" data-suffix="ns">0</span><span class="stat__label">per syscall</span></div>
+                  <div class="stat"><span class="stat__num" data-count="3" data-suffix="ms">0</span><span class="stat__label">guest cold start</span></div>
+                  <div class="stat"><span class="stat__num" data-count="1" data-suffix="%">0</span><span class="stat__label">GPU overhead vs. native Metal</span></div>
+                </div>
+                <p><strong>iVisor-demo</strong> puts a real LLM agent inside the sandbox and tells it to attack: steal SSH keys, exfiltrate data, tamper with the rootfs, open a backdoor listener. Every denial is delivered over a file descriptor the guest can&rsquo;t even address, so it can&rsquo;t forge what didn&rsquo;t happen.</p>
+                <p class="deep-panel__link">
+                  <a class="badge-link" href="https://github.com/yuvvantalreja/iVisor" target="_blank" rel="noopener">View on GitHub ↗</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="deep-item">
+          <button class="deep-trigger" type="button" aria-expanded="false" aria-controls="panel-vinyl">
+            <span class="deep-trigger__title">Vinyl<span class="deep-trigger__sub">, On-demand podcast generation, on the App Store</span></span>
+            <span class="deep-trigger__chevron" aria-hidden="true"></span>
+          </button>
+          <div class="deep-panel" id="panel-vinyl">
+            <div class="deep-panel__inner">
+              <div class="deep-panel__body">
+                <p>AI-generated audio snippets on demand, a React Native app, live on the App Store. Clerk-backed auth (email/password + Google), a personal snippet library, and a landing page with a real deployed backend (Vercel + Resend) handling TestFlight invite signups.</p>
+                <p class="deep-panel__link">
+                  <a class="badge-link" href="https://apps.apple.com/us/app/vinyl-audio-for-the-curious/id6757407922" target="_blank" rel="noopener">On the App Store ↗</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="deep-item">
+          <button class="deep-trigger" type="button" aria-expanded="false" aria-controls="panel-agent-security">
+            <span class="deep-trigger__title">Behavioral Autoregressive Capability Attenuation<span class="deep-trigger__sub">, Agent Sandbox Security </span></span>
+            <span class="deep-trigger__chevron" aria-hidden="true"></span>
+          </button>
+          <div class="deep-panel" id="panel-agent-security">
+            <div class="deep-panel__inner">
+              <div class="deep-panel__body">
+                <p><strong>Behavioral Autoregressive Capability Attenuation (BACA)</strong> bridges an agent to SHADE-Arena, a benchmark for catching agent sabotage and deception, and logs how different monitoring strategies perform at catching it. Puts a signing boundary between an agent and the outside world: the agent proposes a diff, an auth server returns a signed allow/deny verdict before any PR can open, with the policy and keys kept off the agent&rsquo;s side entirely.</p>
+                <p class="deep-panel__link">
+                  <a class="badge-link" href="https://github.com/yuvvantalreja/baca" target="_blank" rel="noopener">BACA ↗</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
       </ul>
     </section>
 
-    <section class="courses">
+    <section class="courses reveal" style="--d:3">
       <h2 class="section-label">Some courses I&rsquo;ve enjoyed</h2>
       <ul class="dot-list">
         <li>Deep Learning (PhD)</li>
@@ -62,12 +217,12 @@
       </ul>
     </section>
 
-    <section class="hackathons">
+    <section class="hackathons reveal" style="--d:4">
       <h2 class="section-label">Hackathons</h2>
       <ul class="plain-list">
-        <li>Claude Builder Hackathon — 1st Place</li>
-        <li>PennApps XVII —  1st Place </li>
-        <li>Hack112 —  1st Place</li>
+        <li>Claude Builder Hackathon, 1st Place</li>
+        <li>PennApps XVII,  1st Place </li>
+        <li>Hack112,  1st Place</li>
       </ul>
     </section>
   </main>
@@ -78,5 +233,7 @@
     <a href="mailto:talrejayuvvan@gmail.com">talrejayuvvan@gmail.com</a>
   </footer>
 
+  <script src="animations.js" defer></script>
+  <script src="deep-dive.js" defer></script>
 </body>
 </html>

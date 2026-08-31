@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
 
@@ -23,11 +24,11 @@
 
   <main class="layout">
     <aside class="side">
-      <div class="avatar" title="That's me">
+      <div class="avatar reveal" style="--d:0" title="That's me">
         <img src="assets/headshot.jpeg" alt="Yuvvan Talreja" class="avatar-photo">
       </div>
 
-      <section class="now">
+      <section class="now reveal" style="--d:1">
         <h2 class="section-label">Currently</h2>
         <ul class="now-list">
           <li>Computer Engineering &amp; Machine Learning at <a href="https://www.cmu.edu" target="_blank" rel="noopener">Carnegie Mellon University</a></li>
@@ -36,7 +37,7 @@
         </ul>
       </section>
 
-      <section class="elsewhere">
+      <section class="elsewhere reveal" style="--d:2">
         <h2 class="section-label">Socials</h2>
         <ul class="social-list">
           <li><a href="https://x.com/yuvvantalreja" target="_blank" rel="noopener">X</a></li>
@@ -48,7 +49,7 @@
     </aside>
 
     <div class="content">
-      <section class="hero">
+      <section class="hero reveal" style="--d:0">
         <h1>Hey, I&rsquo;m Yuvvan</h1>
 
         <p>
@@ -67,7 +68,7 @@
         </p>
       </section>
 
-      <section class="offline">
+      <section class="offline reveal" style="--d:1">
         <h2 class="section-label">Away from the screen</h2>
         <p>
           I live in Pittsburgh and spend my free time hunting for new
@@ -85,5 +86,6 @@
     <a href="mailto:talrejayuvvan@gmail.com">talrejayuvvan@gmail.com</a>
   </footer>
 
+  <script src="animations.js" defer></script>
 </body>
 </html>

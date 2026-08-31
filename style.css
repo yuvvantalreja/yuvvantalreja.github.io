@@ -23,6 +23,8 @@
 
   --font-display: "Instrument Serif", Georgia, serif;
   --font-sans: "Instrument Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 * {
@@ -66,7 +68,7 @@ body {
   letter-spacing: 0.01em;
   padding-bottom: 0.2rem;
   border-bottom: 1.5px solid transparent;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition: color 0.15s var(--ease), border-color 0.15s var(--ease);
 }
 
 .site-nav a:hover {
@@ -100,6 +102,12 @@ body {
   object-fit: cover;
   border-radius: 12px;
   box-shadow: 0 12px 28px -18px rgba(29, 74, 87, 0.35);
+  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+}
+
+.avatar:hover img {
+  transform: scale(1.02);
+  box-shadow: 0 16px 32px -16px rgba(29, 74, 87, 0.42);
 }
 
 .side .now,
@@ -207,7 +215,7 @@ a {
   text-decoration-color: var(--accent);
   text-decoration-thickness: 1.5px;
   text-underline-offset: 3px;
-  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+  transition: color 0.15s var(--ease), text-decoration-color 0.15s var(--ease);
 }
 
 a:hover {
@@ -225,6 +233,292 @@ a:hover {
   color: var(--muted);
   display: flex;
   gap: 0.6rem;
+}
+
+/* ---------- deep-dive expandable items ----------
+   .deep-trigger toggles aria-expanded via deep-dive.js; everything else
+   (panel height, bar fills, flow stages) is driven off that attribute
+   with a CSS sibling selector, so JS only ever flips one attribute. */
+
+.deep-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.deep-item + .deep-item {
+  border-top: 1px solid var(--rule);
+}
+
+.deep-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.7rem 0;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.deep-trigger__title {
+  font-weight: 500;
+  color: var(--heading);
+}
+
+.deep-trigger__sub {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.deep-trigger__chevron {
+  flex: 0 0 auto;
+  width: 0.5em;
+  height: 0.5em;
+  border-right: 1.5px solid var(--accent-deep);
+  border-bottom: 1.5px solid var(--accent-deep);
+  transform: rotate(-45deg);
+  transition: transform 0.35s var(--ease), border-color 0.2s var(--ease);
+}
+
+.deep-trigger[aria-expanded="true"] .deep-trigger__chevron {
+  transform: rotate(45deg);
+}
+
+.deep-trigger:hover .deep-trigger__chevron {
+  border-color: var(--heading);
+}
+
+/* a row with nothing to expand yet — same row height, no affordance */
+.deep-item--static {
+  padding: 0.7rem 0;
+  color: var(--ink);
+}
+
+.deep-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s var(--ease);
+}
+
+.deep-trigger[aria-expanded="true"] + .deep-panel {
+  grid-template-rows: 1fr;
+}
+
+.deep-panel__inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.deep-panel__body {
+  padding: 0.1rem 0 1.6rem;
+  font-size: 0.95rem;
+}
+
+.deep-panel__body p {
+  margin: 0 0 0.9rem;
+}
+
+.deep-panel__body p:last-child {
+  margin-bottom: 0;
+}
+
+/* pipeline / flow diagram */
+
+.flow {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  margin: 1.1rem 0 1.3rem;
+  padding-bottom: 0.2rem;
+  font-size: 0.8rem;
+  scrollbar-width: none;
+}
+
+.flow::-webkit-scrollbar {
+  display: none;
+}
+
+.flow__stage {
+  flex: 0 0 auto;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  color: var(--heading);
+  white-space: nowrap;
+  background: var(--bg);
+}
+
+.flow__connector {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1px;
+  margin: 0 0.4rem;
+  background: var(--rule);
+}
+
+/* single-hue magnitude bars (time breakdown, etc.) */
+
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin: 1.1rem 0 1.3rem;
+}
+
+.bars__row {
+  display: grid;
+  grid-template-columns: 9rem 1fr 2.8rem;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 0.82rem;
+}
+
+.bars__label {
+  color: var(--ink);
+}
+
+.bars__track {
+  height: 10px;
+  background: var(--rule);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bars__fill {
+  display: block;
+  height: 100%;
+  width: var(--pct, 0%);
+  background: var(--accent-deep);
+  border-radius: 999px;
+}
+
+.bars__value {
+  text-align: right;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* stat chips (count up via deep-dive.js) */
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 1.1rem 0 1.3rem;
+}
+
+.stat {
+  min-width: 5.5rem;
+}
+
+.stat__num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  color: var(--heading);
+  line-height: 1.1;
+}
+
+.stat__label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.15rem;
+}
+
+/* pill CTA for outbound links inside a deep-panel */
+
+.badge-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--accent-deep);
+  color: var(--accent-deep) !important;
+  text-decoration: none !important;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.badge-link + .badge-link {
+  margin-left: 0.6rem;
+}
+
+.badge-link:hover {
+  background: var(--accent-deep);
+  color: var(--bg) !important;
+  transform: translateY(-1px);
+}
+
+/* motion: entrance for flow/bars, gated behind reduced-motion like .reveal */
+
+@media (prefers-reduced-motion: no-preference) {
+  .flow__stage,
+  .flow__connector {
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  }
+
+  .flow__stage:nth-child(1) { transition-delay: 0ms; }
+  .flow__connector:nth-child(2) { transition-delay: 45ms; }
+  .flow__stage:nth-child(3) { transition-delay: 90ms; }
+  .flow__connector:nth-child(4) { transition-delay: 135ms; }
+  .flow__stage:nth-child(5) { transition-delay: 180ms; }
+  .flow__connector:nth-child(6) { transition-delay: 225ms; }
+  .flow__stage:nth-child(7) { transition-delay: 270ms; }
+  .flow__connector:nth-child(8) { transition-delay: 315ms; }
+  .flow__stage:nth-child(9) { transition-delay: 360ms; }
+
+  .deep-trigger[aria-expanded="true"] + .deep-panel .flow__stage,
+  .deep-trigger[aria-expanded="true"] + .deep-panel .flow__connector {
+    opacity: 1;
+    transform: none;
+  }
+
+  .bars__fill {
+    width: 0%;
+    transition: width 0.8s var(--ease);
+  }
+
+  .bars__row:nth-child(1) .bars__fill { transition-delay: 0ms; }
+  .bars__row:nth-child(2) .bars__fill { transition-delay: 90ms; }
+  .bars__row:nth-child(3) .bars__fill { transition-delay: 180ms; }
+  .bars__row:nth-child(4) .bars__fill { transition-delay: 270ms; }
+
+  .deep-trigger[aria-expanded="true"] + .deep-panel .bars__fill {
+    width: var(--pct, 0%);
+  }
+}
+
+/* ---------- entrance reveal ----------
+   .reveal elements start hidden and are nudged in by animations.js
+   (adds the .in class via IntersectionObserver). Wrapped in the
+   no-preference query so prefers-reduced-motion users just see the
+   final state with no motion at all — no JS branching needed. */
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+    transition-delay: calc(var(--d, 0) * 80ms);
+  }
+
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ---------- small screens ---------- */
@@ -280,4 +574,14 @@ a:hover {
     order: 4;
     margin-top: 3rem;
   }
+
+  .bars__row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "label value" "track track";
+    row-gap: 0.35rem;
+  }
+
+  .bars__label { grid-area: label; }
+  .bars__value { grid-area: value; }
+  .bars__track { grid-area: track; }
 }
