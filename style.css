@@ -194,6 +194,23 @@ section + section {
   margin-top: 3.25rem;
 }
 
+/* ---------- hero lines with org logos (work page) ---------- */
+
+.hero-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.hero-logo {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin-top: 0.28em;
+  object-fit: contain;
+  border-radius: 5px;
+}
+
 .section-label {
   font-size: 0.78rem;
   font-weight: 500;
